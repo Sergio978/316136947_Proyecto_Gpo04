@@ -8,6 +8,10 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+// Other Libs
+#include "SOIL2/SOIL2.h"
+#include "stb_image.h"
+
 // GL includes
 #include "Shader.h"
 #include "Camera.h"
@@ -18,9 +22,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// Other Libs
-#include "SOIL2/SOIL2.h"
-#include "stb_image.h"
 // Properties
 const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -102,7 +103,7 @@ int main()
     // Setup and compile our shaders
     Shader shader("Shaders/modelLoading.vs", "Shaders/modelLoading.frag");
     Shader lampshader("Shaders/lamp.vs", "Shaders/lamp.frag");
-    Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
+    Shader lightingShader("Shaders/lighting1/lighting.vs", "Shaders/lighting1/lighting.frag");
 
 
 
