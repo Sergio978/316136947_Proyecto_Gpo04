@@ -808,7 +808,6 @@ void DoMovement()
 
 	if (anim_tres == true) {
 		giro += 0.5f;
-		printf("%f\n", giro);
 		if (giro == 360.5f) {
 			anim_tres = false;
 			giro = 0;
