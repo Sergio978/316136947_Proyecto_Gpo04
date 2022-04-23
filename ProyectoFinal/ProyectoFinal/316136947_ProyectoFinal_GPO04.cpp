@@ -606,7 +606,7 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-0.4f, 7.35f, -8.15f));
+		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.2f, 2.0f, 1.8f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -620,7 +620,7 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-0.4f, 7.35f, -8.15f));
+		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.2f, 2.0f, 1.8f));
 		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -637,7 +637,7 @@ int main()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-0.4f, 7.35f, -8.15f));
+		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.2f, 2.0f, 1.8f));
 		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -807,9 +807,11 @@ void DoMovement()
 	}
 
 	if (anim_tres == true) {
-		giro += 0.1f;
-		if (giro == 360.012756f) {
+		giro += 0.5f;
+		printf("%f\n", giro);
+		if (giro == 360.5f) {
 			anim_tres = false;
+			giro = 0;
 		}
 	}
 
