@@ -650,14 +650,14 @@ int main()
 		glBindVertexArray(0);
 
 
+		//For the light bulb in the lamp object tommy's room
+		lampShader.Use();
+
 		// Get location objects for the matrices on the lamp shader
 		modelLoc = glGetUniformLocation(lampShader.Program, "model");
 		viewLoc = glGetUniformLocation(lampShader.Program, "view");
 		projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
-
-		//For the light bulb in the lamp object tommy's room
-		lampShader.Use();
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		model = glm::mat4(1);
@@ -673,6 +673,12 @@ int main()
 
 		//For the ceiling lamp 1 in the lamp object tommy's room
 		lampShader.Use();
+
+		// Get location objects for the matrices on the lamp shader
+		modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		model = glm::mat4(1);
@@ -686,6 +692,12 @@ int main()
 
 		//For the ceiling lamp 2 in the lamp object living room
 		lampShader.Use();
+
+		// Get location objects for the matrices on the lamp shader
+		modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		model = glm::mat4(1);
@@ -699,6 +711,12 @@ int main()
 
 		//For the ceiling lamp 3 in the lamp object living room
 		lampShader.Use();
+
+		// Get location objects for the matrices on the lamp shader
+		modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		model = glm::mat4(1);
