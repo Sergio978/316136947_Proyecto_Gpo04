@@ -60,7 +60,8 @@ glm::vec3 pointLightPositions[] = {
 	glm::vec3(-6.9f, 6.75f, 6.4f),
 	glm::vec3(-6.9f, 6.75f, -4.2f),
 	glm::vec3(4.5f,15.6f,-2.5f),
-	glm::vec3(10.8f, 11.75f, 3.2f)
+	glm::vec3(10.8f, 11.75f, 3.2f),
+	glm::vec3(-5.05f, 5.0f, -8.48f)
 };
 
 float vertices[] = {
@@ -111,6 +112,7 @@ glm::vec3 Light1 = glm::vec3(0);
 glm::vec3 Light2 = glm::vec3(0);
 glm::vec3 Light3 = glm::vec3(0);
 glm::vec3 Light4 = glm::vec3(0);
+glm::vec3 Light5 = glm::vec3(0);
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -200,6 +202,9 @@ int main()
 	Model Cuna((char*)"Models/Cuna/Base_Cuna.obj");
 	Model Cuna_G1((char*)"Models/Cuna/Giratorio1_cuna.obj");
 	Model Cuna_G2((char*)"Models/Cuna/Giratorio2_cuna.obj");
+
+	Model B_lamp((char*)"Models/Base_Lamp/lampara.obj");
+	Model B_foco((char*)"Models/Base_Lamp/foco.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -292,9 +297,17 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.7f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 1.8f);
 
+		// Point light 5
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[4].position"), pointLightPositions[4].x, pointLightPositions[4].y, pointLightPositions[4].z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[4].ambient"), Light5.x, Light5.y, Light5.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[4].diffuse"), Light5.x, Light5.y, Light5.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[4].specular"), 0.0f, 0.0f, 0.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[4].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[4].linear"), 0.7f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[4].quadratic"), 1.8f);
 
 		// Set material properties
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f); //Brillo del objeto
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 22.0f); //Brillo del objeto
 
 		// Create camera transformations
 		glm::mat4 view;
@@ -649,6 +662,20 @@ int main()
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 		glBindVertexArray(0);
 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.8f, 0.5f, -11.15f));
+		model = glm::rotate(model, glm::radians(-130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.2f, 1.3f, 1.2f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 5.0);
+		B_lamp.Draw(lightingShader);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+
 
 		//For the light bulb in the lamp object tommy's room
 		lampShader.Use();
@@ -668,7 +695,7 @@ int main()
 		model = glm::translate(model, pointLightPositions[3]);
 		model = glm::scale(model, glm::vec3(0.23f)); // Make it a smaller light bulb
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		foco.Draw(lightingShader);
+		foco.Draw(lampShader);
 		glBindVertexArray(0);
 
 		//For the ceiling lamp 1 in the lamp object tommy's room
@@ -687,7 +714,7 @@ int main()
 		model = glm::mat4(1);
 		model = glm::translate(model, pointLightPositions[2]);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		C_foco.Draw(lightingShader);
+		C_foco.Draw(lampShader);
 		glBindVertexArray(0);
 
 		//For the ceiling lamp 2 in the lamp object living room
@@ -706,7 +733,7 @@ int main()
 		model = glm::mat4(1);
 		model = glm::translate(model, pointLightPositions[1]);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		C_foco.Draw(lightingShader);
+		C_foco.Draw(lampShader);
 		glBindVertexArray(0);
 
 		//For the ceiling lamp 3 in the lamp object living room
@@ -725,9 +752,29 @@ int main()
 		model = glm::mat4(1);
 		model = glm::translate(model, pointLightPositions[0]);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		C_foco.Draw(lightingShader);
+		C_foco.Draw(lampShader);
 		glBindVertexArray(0);
 
+		//For the bulb lamp in the lamp object living room
+		lampShader.Use();
+
+		// Get location objects for the matrices on the lamp shader
+		modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		model = glm::mat4(1);
+		model = glm::translate(model, lightPos);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		model = glm::mat4(1);
+		model = glm::translate(model, pointLightPositions[4]);
+		model = glm::rotate(model, glm::radians(-130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.2f, 1.3f, 1.2f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		B_foco.Draw(lampShader);
+		glBindVertexArray(0);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
@@ -867,6 +914,19 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_3])
 	{
 		anim_tres = true;
+	}
+
+	if (keys[GLFW_KEY_6])
+	{
+		active = !active;
+		if (active)
+		{
+			Light5 = glm::vec3(1.0f, 1.0f, 1.0f);
+		}
+		else
+		{
+			Light5 = glm::vec3(0);
+		}
 	}
 
 	if (keys[GLFW_KEY_7])
