@@ -1,0 +1,21 @@
+newmtl phone:Material_0
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.40 0.40 0.40
+Tf 1.00 1.00 1.00
+map_Kd Base3.png
+Ni 1.00
+newmtl phone:Material_001_0
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.40 0.40 0.40
+Tf 1.00 1.00 1.00
+map_Kd Base1.png
+Ni 1.00
+newmtl phone:Material_003_0
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.40 0.40 0.40
+Tf 1.00 1.00 1.00
+map_Kd Base2.png
+Ni 1.00
