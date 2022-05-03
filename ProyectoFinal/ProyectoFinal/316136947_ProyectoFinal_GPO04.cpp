@@ -212,7 +212,7 @@ int main()
 
 	Model table((char*)"Models/table/table.obj");
 	Model chair((char*)"Models/chair/chair.obj");
-	Model phone((char*)"Models/Phone/phone.obj");
+	Model phone((char*)"Models/Phone/Phone.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO;
@@ -574,8 +574,9 @@ int main()
 		glBindVertexArray(0);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.05f, 3.0f, 10.5f));
-		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-4.5f, 2.95f, 10.0f));
+		model = glm::scale(model, glm::vec3(0.95f, 0.95f, 0.95f));
+		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		phone.Draw(lightingShader);
 		glBindVertexArray(0);
