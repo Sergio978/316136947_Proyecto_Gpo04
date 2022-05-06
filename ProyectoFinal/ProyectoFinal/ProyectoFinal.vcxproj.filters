@@ -26,5 +26,16 @@
     <None Include="Shaders\lighting.vs">
       <Filter>Archivos de origen</Filter>
     </None>
+    <None Include="Shaders\lamp.frag">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="Shaders\lamp.vs">
+      <Filter>Archivos de origen</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
