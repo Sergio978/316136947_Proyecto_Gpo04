@@ -395,7 +395,7 @@ int main() //Main function
 		glm::mat4 model(1);
 		glBindVertexArray(0);
 
-		//Loading objects:
+		//Loading, drawing and spacing objects
 		//House facade without windows
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -498,7 +498,7 @@ int main() //Main function
 		pierna1.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//Reptar toy in tommy's room (RICHT LEG)
+		//Reptar toy in tommy's room (RIGHT LEG)
 		model = glm::mat4(1);
 		//Using the variables which store a consecutive value of the array obtained with keyframes to animate the reptar's walking
 		model = glm::translate(model, glm::vec3(walk, 9.5f, -3.0f));
@@ -509,7 +509,7 @@ int main() //Main function
 		pierna2.Draw(lightingShader);
 		glBindVertexArray(0);
 
-
+		//Chest of drawers (without drawers)
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(10.8f, 9.15f, 4.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -517,16 +517,20 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Cajonera.Draw(lightingShader);
 		glBindVertexArray(0);
-
+		
+		//Top drawer 
 		model = glm::mat4(1);
+		//using the variable "avanzo" to be able to move on the x-axis to each drawer
 		model = glm::translate(model, glm::vec3(avanzo, 9.15f, 4.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Cajonera_S.Draw(lightingShader);
 		glBindVertexArray(0);
-
+		
+		//middle drawer
 		model = glm::mat4(1);
+		//using the variable "avanzo" to be able to move on the x-axis to each drawer
 		model = glm::translate(model, glm::vec3(avanzo, 9.15f, 4.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
@@ -534,7 +538,9 @@ int main() //Main function
 		Cajonera_M.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//bottom drawer
 		model = glm::mat4(1);
+		//using the variable "avanzo" to be able to move on the x-axis to each drawer
 		model = glm::translate(model, glm::vec3(avanzo, 9.15f, 4.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
@@ -542,6 +548,7 @@ int main() //Main function
 		Cajonera_I.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//"Reptar" lamp without bulb
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(10.8f, 11.75f, 3.2f));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -550,6 +557,7 @@ int main() //Main function
 		Lampara.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//feeding bottle
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(10.8f, 11.75f, 5.0f));
 		model = glm::scale(model, glm::vec3(1.3f, 1.3f, 1.3f));
@@ -557,6 +565,7 @@ int main() //Main function
 		Mamila.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//rattle
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(10.2f, 9.15f, 2.0f));
 		model = glm::rotate(model, glm::radians(-110.0f), glm::vec3(1.0f, 1.0f, 1.0f));
@@ -564,6 +573,7 @@ int main() //Main function
 		Sonaja.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//sofa in the second room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-6.2f, 0.4f, -1.6f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -572,6 +582,7 @@ int main() //Main function
 		Sofa.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//Footrest in the second room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.386f, 0.42f, -0.6f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -580,24 +591,28 @@ int main() //Main function
 		reposador.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//object ceiling lamp (support only, does not include the bulb as this will be drawn with another shader) in Tommy's room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(4.5f,15.6f,-2.5f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		C_lamp.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//object ceiling lamp (support only, does not include the bulb as this will be drawn with another shader) in the second room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-6.9f, 6.75f, -4.2f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		C_lamp.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//object ceiling lamp (support only, does not include the bulb as this will be drawn with another shader) in the second room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-6.9f, 6.75f, 6.4f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		C_lamp.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//cradle in tommy´s room
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -606,22 +621,24 @@ int main() //Main function
 		Cuna.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//swivel stand belonging to the cradle object
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.2f, 2.0f, 1.8f));
-		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f)); //the variable "giro" allows to vary the rotation values
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Cuna_G1.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//Image of "reptar" representing the hanging and rotating object of the crib
+		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(1.25f, 7.35f, -8.15f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.2f, 2.0f, 1.8f));
-		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(giro), glm::vec3(0.0f, 1.0f, 0.0f));//the variable "giro" allows to vary the rotation values
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 5.0);
@@ -632,6 +649,7 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
+		//floor lamp in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-2.8f, 0.5f, -11.15f));
 		model = glm::rotate(model, glm::radians(-130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -640,6 +658,7 @@ int main() //Main function
 		B_lamp.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//chest of drawers in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-2.845f, 0.715f, -1.6f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -648,6 +667,7 @@ int main() //Main function
 		comoda.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//babypen in in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.0f, 0.50f, -9.25f));
 		model = glm::scale(model, glm::vec3(1.0f, 0.8f, 0.85f));
@@ -655,6 +675,7 @@ int main() //Main function
 		Baby_pen.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//table in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-4.05f, 0.5f, 10.5f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -663,6 +684,7 @@ int main() //Main function
 		table.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//chair in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-11.0f, 0.5f, 10.5f));
 		model = glm::scale(model, glm::vec3(0.65f, 0.78f, 0.75f));
@@ -671,6 +693,7 @@ int main() //Main function
 		chair.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//phone in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-4.5f, 2.95f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.95f, 0.95f, 0.95f));
@@ -679,7 +702,7 @@ int main() //Main function
 		phone.Draw(lightingShader);
 		glBindVertexArray(0);
 
-
+		//using the lampshader for light effects on light bulbs as required
 		//For the light bulb in the lamp object tommy's room
 		lampShader.Use();
 
@@ -820,12 +843,12 @@ void DoMovement()
 
 
 	}
-
-	if (anim and close == true and open == false) //Primer momento esta cerrada
+	//Animation on the toy chest
+	if (anim and close == true and open == false) //First, the toy chest is closed
 	{
-		if (rot < 46) {
-			rot += 1.0f;
-			if (rot == 45) {
+		if (rot < 46) { //Maximum rotation angle in 45°
+			rot += 1.0f; //increments in one unit until the angle is 45°
+			if (rot == 45) { //When 45° is reached, the animation has ended
 				open = true;
 				close = false;
 				anim = false;
@@ -833,24 +856,24 @@ void DoMovement()
 		}
 	}
 
-	if (anim and open == true and close == false) { //Segundo momento esta cerrada
+	if (anim and open == true and close == false) { //Second moment the toy chest is open
 
-		if (rot > -1) {
-			rot -= 1.0f;
-			if (rot == 0) {
+		if (rot > -1) { //Maximum rotation angle in 0°
+			rot -= 1.0f; //decrements in one unit until 0°
+			if (rot == 0) {  //When 0° is reached, the animation has ended
 				close = true;
 				open = false;
 				anim = false;
 			}
 		}
 	}
-
-	if (anim_dos and close2 == true and open2 == false)//Implica cerrado
+	//Animation on the chest of drawers
+	if (anim_dos and close2 == true and open2 == false)//first moment all drawers closed
 	{
 		if (avanzo < 10.9f)
 		{
-			avanzo -= 0.1f;
-
+			avanzo -= 0.1f; //decrement by 0.1 units to the condition to stop the animation where the drawer is already open
+			//the variable "avanzo" is shared by the 3 drawers, the upper, middle and lower, so they will be synchronized in movement when activating the animation
 			if (avanzo == 9.699996f) {
 				open2 = true;
 				close2 = false;
@@ -860,12 +883,12 @@ void DoMovement()
 
 	}
 
-	if (anim_dos and open2 == true and close2 == false)//Implica abierto
+	if (anim_dos and open2 == true and close2 == false)//second moment all drawers open
 	{
 		if (avanzo > 9.699995f)
 		{
-			avanzo += 0.1f;
-			if (avanzo == 10.8f) {
+			avanzo += 0.1f; //increment by 0.1 units to the condition to stop the animation where the drawer is already closed
+			if (avanzo == 10.8f) {//the variable "avanzo" is shared by the 3 drawers, the upper, middle and lower, so they will be synchronized in movement when activating the animation
 				open2 = false;
 				close2 = true;
 				anim_dos = false;
@@ -873,21 +896,25 @@ void DoMovement()
 		}
 
 	}
-
+	//Animation of the rotating components of the crib
 	if (anim_tres == true) {
-		giro += 0.5f;
+		giro += 0.5f; //step increments by 0.5 until a full lap is completed, at which point the animation ends
 		if (giro == 360.5f) {
 			anim_tres = false;
 			giro = 0;
 		}
 	}
 
+	//Animation of the bounce of a ball
 	if (anim_P == true) {
+		/*There are 380 elements in the array of values that store the keyframes applied on 
+		the position on the Y-axis and the scale on that same axis to represent the ball’s animation. 
+		Iterate on each position assigning its read values to variables that allow to modify the state 
+		of the object to be placed as arguments in the information applied to the object*/
 		if (i < 380) {
 			rise = PosY[i];
 			scale = Esc[i];
-			//printf("R: %f\n Es:%f\n", rise, scale);
-			if (i == 379) {
+			if (i == 379) { //When the last position is reached the animation will be finished
 				i = 0;
 				anim_P = false;
 				rise = 9.1f;
@@ -896,6 +923,8 @@ void DoMovement()
 			
 		}
 		i++;
+		//it is allowed to rotate the object while reading the 380 elements of the arrays. When it reaches 380 then the rotation stops, 
+		//as it implies that it has reached the initial position
 		if (rotP < 381) {
 			rotP++;
 		}
@@ -903,15 +932,22 @@ void DoMovement()
 			rotP = 0;
 		}
 	}
-
+	//Walking animation of a toy ("reptar")
 	if (anim_R == true) {
+		/*There are 1710 elements in the arrays (obtained with keyframes) that allows to modify the rotation of the legs of the toy and 
+		in the traslation of the same, is iterated on each position to be able to assign to the variables their 
+		values so that these values are arguments of the transformation applied on the objects of the toy 
+		(left leg, right leg and body)*/
 		if (j < 1710) {
 			rotLeg1 = Pier1[j];
 			rotLeg2 = Pier2[j];
 			walk = Tras[j];
 		}
 		j++;
-		if (j == 1709) k = 161; //when finish the array, then the aux k, initializate in 1709 so we can count to 0 to rotate
+		if (j == 1709) k = 161; /*When the end of the arrangement is reached implies that the toy reached 
+								the wall of the room, then, to rotate, it has to reach from -80° to 80, that is, 
+								if unit increments are made are 160 increments, an account that is only activated until 
+								the iterator variable "j" at the end, to start the rotation process with the variable "k"*/
 			if (k > 0)
 			{
 				if (rotR < 81) {
@@ -919,14 +955,18 @@ void DoMovement()
 				}
 			}
 			k--;
-			if (k == 1) l = 1709; //Cuando acaba de girar, entonces comeinza eld ecremento
+			if (k == 1) l = 1709; /*As "k" was decremented as an account, when it reaches 1 it implies that it has finished rotating, 
+								  then the auxiliary variable "l" is assigned the value of 1709 so that it can iterate the arrangement 
+								  (obtained with keyframes) in reverse to return to the initial position*/
 				if (l > -1) {
 					rotLeg1 = Pier1[l];
 					rotLeg2 = Pier2[l];
 					walk = Tras[l];
 				}
 				l--;
-				if (l == 0) m = 161;
+				if (l == 0) m = 161; /*When the auxiliary variable l reaches position 0, then I reach the initial position and starts 
+									 an account of 160 to 0 so that I can now rotate from 80 to -80 so that the toy is as at the beginning 
+									 of the animation*/
 					if (m > 0)
 					{
 						rotLeg1 = 0.0;
@@ -936,7 +976,7 @@ void DoMovement()
 						}
 					}
 					m--;
-					if (m == 1) {
+					if (m == 1) { //When the count reaches 1, it implies that the toy finished spinning and therefore ends the animation
 						//Reset:
 						j = 0;
 						anim_R = false;
@@ -966,31 +1006,31 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_1])
+	if (keys[GLFW_KEY_1]) //Key 1 activates the animation of the toy chest
 	{
 		anim = true;
 	}
 
-	if (keys[GLFW_KEY_2])
+	if (keys[GLFW_KEY_2]) //The key 2 activates the animation of the chest of drawers
 	{
 		anim_dos = true;
 	}
 
-	if (keys[GLFW_KEY_3])
+	if (keys[GLFW_KEY_3]) //The key 3 activates the animation of the crib (the rotating element) and plays a song
 	{
 		anim_tres = true;
 		PlaySound(TEXT("Models/Accesorios/Rugrats.wav"), NULL, SND_ASYNC);
 	}
 
-	if (keys[GLFW_KEY_4]) {
+	if (keys[GLFW_KEY_4]) { // The key 4 activates the ball bounce animation
 		anim_P = true;
 	}
 
-	if (keys[GLFW_KEY_5]) {
+	if (keys[GLFW_KEY_5]) { //The key 5 activates the "reptar" walking toy
 		anim_R = true;
 	}
 
-	if (keys[GLFW_KEY_6])
+	if (keys[GLFW_KEY_6]) //The key 6 turns the floor lamp light on and off in the second room of the house
 	{
 		active = !active;
 		if (active)
@@ -1003,7 +1043,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_7])
+	if (keys[GLFW_KEY_7]) //The key 7 turns the ceiling lamp light 1 on and off in the second room of the house
 	{
 		active = !active;
 		if (active)
@@ -1016,7 +1056,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_8]) {
+	if (keys[GLFW_KEY_8]) { //The key 8 turns the ceiling lamp light 2 on and off in the second room of the house
 		active = !active;
 		if (active)
 		{
@@ -1029,7 +1069,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_9]) {
+	if (keys[GLFW_KEY_9]) { //Key 9 turns the ceiling lamp light on and off in tommy’s room
 		active = !active;
 		if (active)
 		{
@@ -1042,7 +1082,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
-	if (keys[GLFW_KEY_0]) {
+	if (keys[GLFW_KEY_0]) {//Key 0 turns on and off the night lamp light in tommy’s room
 		active = !active;
 		if (active)
 		{
