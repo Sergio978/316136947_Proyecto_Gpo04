@@ -23,6 +23,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Texture.h"
 
 // Function prototypes
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode); //This function is called when a especified key via GLFW is pressed
@@ -146,6 +147,52 @@ float vertices[] = {
 	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
+//For Skybox geometry
+GLfloat skyboxVertices[] = {
+	// Positions
+	-1.0f,  1.0f, -1.0f,
+	-1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	-1.0f,  1.0f, -1.0f,
+	1.0f,  1.0f, -1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	1.0f, -1.0f,  1.0f
+};
+
 /*
 A vector 3 is declared for each light element, 
 so that the ambiental and diffuse property can be controlled,
@@ -225,7 +272,8 @@ int main() //Main function
 	//Opening the shaders to use
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
-	
+	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
+
 	//Loading the models to use
 	Model House((char*)"Models/House/House_No_Windows_unsized.obj");
 	Model Windows((char*)"Models/House/Windows_unsized.obj");
@@ -275,6 +323,10 @@ int main() //Main function
 	Model chair((char*)"Models/chair/chair.obj");
 	Model phone((char*)"Models/Phone/Phone.obj");
 
+	Model PhtoFrame((char*)"Models/Photo_Frame/Photo_Frame.obj");
+	Model glass((char*)"Models/Photo_Frame/glass.obj");
+	Model floor((char*)"Models/floor/floor.obj");
+
 	// Set the container's VAO (and VBO), it will be used only if necessary
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -293,6 +345,27 @@ int main() //Main function
 	lightingShader.Use();
 	glUniform1i(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0);
 	glUniform1i(glGetUniformLocation(lightingShader.Program, "material.specular"), 1);
+
+	//Skybox
+	GLuint skyboxVBO, skyboxVAO;
+	glGenVertexArrays(1, &skyboxVAO);
+	glGenBuffers(1, &skyboxVBO);
+	glBindVertexArray(skyboxVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+
+	//Load textures of the skybox
+	vector<const GLchar*> faces;
+	faces.push_back("SkyBox/sh_rt.png");
+	faces.push_back("SkyBox/sh_lf.png");
+	faces.push_back("SkyBox/sh_up.png");
+	faces.push_back("SkyBox/sh_dn.png");
+	faces.push_back("SkyBox/sh_bk.png");
+	faces.push_back("SkyBox/sh_ft.png");
+
+	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
 	// Establishing a perspective projection of the camera
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
@@ -400,6 +473,12 @@ int main() //Main function
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		House.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Grass floor
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		floor.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//Windows with transparency
@@ -702,6 +781,33 @@ int main() //Main function
 		phone.Draw(lightingShader);
 		glBindVertexArray(0);
 
+		//Photo frame in the second room of the house
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.55f, 2.65f, -1.5f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 0.95f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		PhtoFrame.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Glass of the Photo frame
+		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.55f, 2.65f, -1.5f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 0.95f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.60);
+		glass.Draw(lightingShader);
+		glDisable(GL_BLEND);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+
+
 		//using the lampshader for light effects on light bulbs as required
 		//For the light bulb in the lamp object tommy's room
 		lampShader.Use();
@@ -801,6 +907,20 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		B_foco.Draw(lampShader);
 		glBindVertexArray(0);
+
+		glDepthFunc(GL_LEQUAL);  // Change depth function so depth test passes when values are equal to depth buffer's content
+		SkyBoxshader.Use();
+		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));	// Remove any translation component of the view matrix
+		glUniformMatrix4fv(glGetUniformLocation(SkyBoxshader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(SkyBoxshader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+		// skybox cube
+		glBindVertexArray(skyboxVAO);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+		glDepthFunc(GL_LESS); // Set depth function back to default
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
