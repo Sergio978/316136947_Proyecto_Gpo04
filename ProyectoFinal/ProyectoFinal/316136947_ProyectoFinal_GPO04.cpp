@@ -327,6 +327,11 @@ int main() //Main function
 	Model glass((char*)"Models/Photo_Frame/glass.obj");
 	Model floor((char*)"Models/floor/floor.obj");
 
+	Model glass_c((char*)"Models/Candle/glass.obj");
+	Model candle((char*)"Models/Candle/candle.obj");
+
+	Model plant1((char*)"Models/Plants/Plant.obj");
+
 	// Set the container's VAO (and VBO), it will be used only if necessary
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -397,7 +402,7 @@ int main() //Main function
 
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -20.0f, 30.0f, -20.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.55f, 0.55f, 0.55f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.1f, 0.1f, 0.1f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.1f, 0.1f, 0.1f);
 
@@ -464,7 +469,6 @@ int main() //Main function
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-
 		glm::mat4 model(1);
 		glBindVertexArray(0);
 
@@ -480,20 +484,6 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		floor.Draw(lightingShader);
 		glBindVertexArray(0);
-
-		//Windows with transparency
-		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //Defines the operation of blending for all draw buffers when it is enabled. 
-		model = glm::mat4(1);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.70);
-		Windows.Draw(lightingShader);
-		glDisable(GL_BLEND);  
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
-		glBindVertexArray(0);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
 		// Zaguan:
 		model = glm::mat4(1);
@@ -807,6 +797,35 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
+		//Candle in the second room
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		candle.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Glass for the candle
+		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.50);
+		glass_c.Draw(lightingShader);
+		glDisable(GL_BLEND);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+
+		//Plant over the chest of drawers in the second room
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.75f, 2.62f,-3.25f));
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		plant1.Draw(lightingShader);
+		glBindVertexArray(0);
 
 		//using the lampshader for light effects on light bulbs as required
 		//For the light bulb in the lamp object tommy's room
@@ -921,6 +940,27 @@ int main() //Main function
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // Set depth function back to default
+
+		//Windows with transparency
+		/*In order to observe objects through, such as windows, they must be drawn at the end of the object to be observed. 
+		In this case, i want to se through windows the objects in the living room or from inside the room I want to see the skybox*/
+		lightingShader.Use();
+		modelLoc = glGetUniformLocation(lightingShader.Program, "model");
+		viewLoc = glGetUniformLocation(lightingShader.Program, "view");
+		projLoc = glGetUniformLocation(lightingShader.Program, "projection");
+		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //Defines the operation of blending for all draw buffers when it is enabled. 
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.70);
+		Windows.Draw(lightingShader);
+		glDisable(GL_BLEND);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
