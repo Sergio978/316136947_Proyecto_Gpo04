@@ -331,6 +331,8 @@ int main() //Main function
 	Model candle((char*)"Models/Candle/candle.obj");
 
 	Model plant1((char*)"Models/Plants/Plant.obj");
+	Model plant2((char*)"Models/Plants/Plant2.obj");
+	Model tv_furniture((char*)"Models/TV furniture/Furniture.obj");
 
 	// Set the container's VAO (and VBO), it will be used only if necessary
 	GLuint VBO, VAO;
@@ -825,6 +827,22 @@ int main() //Main function
 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		plant1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Plant in the second room
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-4.1f, 0.585f, 3.0f));
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		plant2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//TV furniture in the second room
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-11.145f, 0.615f, -1.3f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		tv_furniture.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//using the lampshader for light effects on light bulbs as required
