@@ -25,6 +25,7 @@
 #include "Model.h"
 #include "Texture.h"
 
+
 // Function prototypes
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode); //This function is called when a especified key via GLFW is pressed
 void MouseCallback(GLFWwindow* window, double xPos, double yPos);// This function is for the camera configuration using mouse as input 
@@ -53,7 +54,13 @@ glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 /*
 	Variables with which it is allowed to start and perform a certain animation
 */
-bool active; //For the control of the light
+bool active1; //For the control of the light
+bool active2; //For the control of the light
+bool active3; //For the control of the light
+bool active4; //For the control of the light
+bool active5; //For the control of the light
+bool active6; //For the control of the TV
+bool active7; //For the control of the fire of the candle
 float rot = 0.0f; //For control over the opening of the toy chest
 float rotP = 0.0f; //For rotation of the ball object
 float rotR = -80.0f; //For control of the reptar object
@@ -88,6 +95,12 @@ float Pier2[1710] = { 0.236842,0.473684,0.710526,0.947368,1.18421,1.42105,1.6578
 float Tras[1710] = { 6.49684,6.49368,6.49053,6.48737,6.48421,6.48105,6.47789,6.47474,6.47158,6.46842,6.46526,6.4621,6.45895,6.45579,6.45263,6.44947,6.44631,6.44315,6.44,6.43684,6.43368,6.43052,6.42736,6.42421,6.42105,6.41789,6.41473,6.41157,6.40842,6.40526,6.4021,6.39894,6.39578,6.39263,6.38947,6.38631,6.38315,6.37999,6.37683,6.37368,6.37052,6.36736,6.3642,6.36104,6.35789,6.35473,6.35157,6.34841,6.34525,6.3421,6.33894,6.33578,6.33262,6.32946,6.32631,6.32315,6.31999,6.31683,6.31367,6.31051,6.30736,6.3042,6.30104,6.29788,6.29472,6.29157,6.28841,6.28525,6.28209,6.27893,6.27578,6.27262,6.26946,6.2663,6.26314,6.25999,6.25683,6.25367,6.25051,6.24735,6.24419,6.24104,6.23788,6.23472,6.23156,6.2284,6.22525,6.22209,6.21893,6.21577,6.21261,6.20946,6.2063,6.20314,6.19998,6.19682,6.19367,6.19051,6.18735,6.18419,6.18103,6.17788,6.17472,6.17156,6.1684,6.16524,6.16208,6.15893,6.15577,6.15261,6.14945,6.14629,6.14314,6.13998,6.13682,6.13366,6.1305,6.12735,6.12419,6.12103,6.11787,6.11471,6.11156,6.1084,6.10524,6.10208,6.09892,6.09576,6.09261,6.08945,6.08629,6.08313,6.07997,6.07682,6.07366,6.0705,6.06734,6.06418,6.06103,6.05787,6.05471,6.05155,6.04839,6.04524,6.04208,6.03892,6.03576,6.0326,6.02944,6.02629,6.02313,6.01997,6.01681,6.01365,6.0105,6.00734,6.00418,6.00102,5.99786,5.99471,5.99155,5.98839,5.98523,5.98207,5.97892,5.97576,5.9726,5.96944,5.96628,5.96312,5.95997,5.95681,5.95365,5.95049,5.94733,5.94418,5.94102,5.93786,5.9347,5.93154,5.92839,5.92523,5.92207,5.91891,5.91575,5.9126,5.90944,5.90628,5.90312,5.89996,5.8947,5.88944,5.88417,5.87891,5.87365,5.86838,5.86312,5.85786,5.85259,5.84733,5.84207,5.8368,5.83154,5.82628,5.82101,5.81575,5.81049,5.80522,5.79996,5.7947,5.78943,5.78417,5.77891,5.77364,5.76838,5.76312,5.75785,5.75259,5.74733,5.74206,5.7368,5.73154,5.72627,5.72101,5.71575,5.71048,5.70522,5.69996,5.69469,5.68943,5.68417,5.6789,5.67364,5.66838,5.66311,5.65785,5.65259,5.64732,5.64206,5.6368,5.63153,5.62627,5.62101,5.61574,5.61048,5.60522,5.59995,5.59469,5.58943,5.58416,5.5789,5.57364,5.56837,5.56311,5.55785,5.55258,5.54732,5.54206,5.53679,5.53153,5.52627,5.521,5.51574,5.51048,5.50521,5.49995,5.49469,5.48942,5.48416,5.4789,5.47363,5.46837,5.46311,5.45784,5.45258,5.44732,5.44205,5.43679,5.43153,5.42626,5.421,5.41574,5.41047,5.40521,5.39995,5.39468,5.38942,5.38416,5.37889,5.37363,5.36837,5.3631,5.35784,5.35258,5.34731,5.34205,5.33679,5.33152,5.32626,5.321,5.31573,5.31047,5.30521,5.29994,5.29468,5.28942,5.28415,5.27889,5.27363,5.26836,5.2631,5.25784,5.25257,5.24731,5.24205,5.23678,5.23152,5.22626,5.22099,5.21573,5.21047,5.2052,5.19994,5.19468,5.18941,5.18415,5.17889,5.17362,5.16836,5.1631,5.15783,5.15257,5.14731,5.14204,5.13678,5.13152,5.12625,5.12099,5.11573,5.11046,5.1052,5.09994,5.09467,5.08941,5.08415,5.07888,5.07362,5.06836,5.06309,5.05783,5.05257,5.0473,5.04204,5.03678,5.03151,5.02625,5.02099,5.01572,5.01046,5.0052,4.99993,4.99467,4.98941,4.98414,4.97888,4.97362,4.96835,4.96309,4.95783,4.95256,4.9473,4.94204,4.93677,4.93151,4.92625,4.92098,4.91572,4.91046,4.90519,4.89993,4.89467,4.8894,4.88414,4.87888,4.87361,4.86835,4.86309,4.85782,4.85256,4.8473,4.84203,4.83677,4.83151,4.82624,4.82098,4.81572,4.81045,4.80519,4.79993,4.79466,4.7894,4.78414,4.77887,4.77361,4.76835,4.76308,4.75782,4.75256,4.74729,4.74203,4.73677,4.7315,4.72624,4.72098,4.71571,4.71045,4.70519,4.69992,4.69466,4.6894,4.68413,4.67887,4.67361,4.66834,4.66308,4.65782,4.65255,4.64729,4.64203,4.63676,4.6315,4.62624,4.62097,4.61571,4.61045,4.60518,4.59992,4.59466,4.58939,4.58413,4.57887,4.5736,4.56834,4.56308,4.55781,4.55255,4.54729,4.54202,4.53676,4.5315,4.52623,4.52097,4.51571,4.51044,4.50518,4.49992,4.49465,4.48939,4.48413,4.47886,4.4736,4.46834,4.46307,4.45781,4.45255,4.44728,4.44202,4.43676,4.43149,4.42623,4.42097,4.4157,4.41044,4.40518,4.39991,4.39465,4.38939,4.38412,4.37886,4.3736,4.36833,4.36307,4.35781,4.35254,4.34728,4.34202,4.33675,4.33149,4.32623,4.32096,4.3157,4.31044,4.30517,4.29991,4.29465,4.28938,4.28412,4.27886,4.27359,4.26833,4.26307,4.2578,4.25254,4.24728,4.24201,4.23675,4.23149,4.22622,4.22096,4.2157,4.21043,4.20517,4.19991,4.19464,4.18938,4.18412,4.17885,4.17359,4.16833,4.16306,4.1578,4.15254,4.14727,4.14201,4.13675,4.13148,4.12622,4.12096,4.11569,4.11043,4.10517,4.0999,4.09464,4.08938,4.08411,4.07885,4.07359,4.06832,4.06306,4.0578,4.05253,4.04727,4.04201,4.03674,4.03148,4.02622,4.02095,4.01569,4.01043,4.00516,3.9999,3.99464,3.98938,3.98411,3.97885,3.97359,3.96832,3.96306,3.9578,3.95253,3.94727,3.94201,3.93674,3.93148,3.92622,3.92096,3.91569,3.91043,3.90517,3.8999,3.89569,3.89148,3.88727,3.88306,3.87885,3.87464,3.87043,3.86622,3.86201,3.8578,3.85359,3.84938,3.84517,3.84096,3.83675,3.83254,3.82832,3.82411,3.8199,3.81569,3.81148,3.80727,3.80306,3.79885,3.79464,3.79043,3.78622,3.78201,3.7778,3.77359,3.76938,3.76517,3.76096,3.75675,3.75254,3.74833,3.74412,3.7399,3.73569,3.73148,3.72727,3.72306,3.71885,3.71464,3.71043,3.70622,3.70201,3.6978,3.69359,3.68938,3.68517,3.68096,3.67675,3.67254,3.66833,3.66412,3.65991,3.6557,3.65148,3.64727,3.64306,3.63885,3.63464,3.63043,3.62622,3.62201,3.6178,3.61359,3.60938,3.60517,3.60096,3.59675,3.59254,3.58833,3.58412,3.57991,3.5757,3.57149,3.56728,3.56307,3.55885,3.55464,3.55043,3.54622,3.54201,3.5378,3.53359,3.52938,3.52517,3.52096,3.51675,3.51254,3.50833,3.50412,3.49991,3.4957,3.49149,3.48728,3.48307,3.47886,3.47465,3.47043,3.46622,3.46201,3.4578,3.45359,3.44938,3.44517,3.44096,3.43675,3.43254,3.42833,3.42412,3.41991,3.4157,3.41149,3.40728,3.40307,3.39886,3.39465,3.39044,3.38623,3.38201,3.3778,3.37359,3.36938,3.36517,3.36096,3.35675,3.35254,3.34833,3.34412,3.33991,3.3357,3.33149,3.32728,3.32307,3.31886,3.31465,3.31044,3.30623,3.30202,3.29781,3.29359,3.28938,3.28517,3.28096,3.27675,3.27254,3.26833,3.26412,3.25991,3.2557,3.25149,3.24728,3.24307,3.23886,3.23465,3.23044,3.22623,3.22202,3.21781,3.2136,3.20939,3.20517,3.20096,3.19675,3.19254,3.18833,3.18412,3.17991,3.1757,3.17149,3.16728,3.16307,3.15886,3.15465,3.15044,3.14623,3.14202,3.13781,3.1336,3.12939,3.12518,3.12097,3.11676,3.11254,3.10833,3.10412,3.09991,3.09518,3.09044,3.0857,3.08097,3.07623,3.07149,3.06675,3.06202,3.05728,3.05254,3.04781,3.04307,3.03833,3.0336,3.02886,3.02412,3.01939,3.01465,3.00991,3.00518,3.00044,2.9957,2.99096,2.98623,2.98149,2.97675,2.97202,2.96728,2.96254,2.95781,2.95307,2.94833,2.9436,2.93886,2.93412,2.92938,2.92465,2.91991,2.91517,2.91044,2.9057,2.90096,2.89623,2.89149,2.88675,2.88202,2.87728,2.87254,2.86781,2.86307,2.85833,2.85359,2.84886,2.84412,2.83938,2.83465,2.82991,2.82517,2.82044,2.8157,2.81096,2.80623,2.80149,2.79675,2.79201,2.78728,2.78254,2.7778,2.77307,2.76833,2.76359,2.75886,2.75412,2.74938,2.74465,2.73991,2.73517,2.73043,2.7257,2.72096,2.71622,2.71149,2.70675,2.70201,2.69728,2.69254,2.6878,2.68307,2.67833,2.67359,2.66886,2.66412,2.65938,2.65464,2.64991,2.64517,2.64043,2.6357,2.63096,2.62622,2.62149,2.61675,2.61201,2.60728,2.60254,2.5978,2.59306,2.58833,2.58359,2.57885,2.57412,2.56938,2.56464,2.55991,2.55517,2.55043,2.5457,2.54096,2.53622,2.53149,2.52675,2.52201,2.51727,2.51254,2.5078,2.50306,2.49833,2.49359,2.48885,2.48412,2.47938,2.47464,2.46991,2.46517,2.46043,2.45569,2.45096,2.44622,2.44148,2.43675,2.43201,2.42727,2.42254,2.4178,2.41306,2.40833,2.40359,2.39885,2.39411,2.38938,2.38464,2.3799,2.37517,2.37043,2.36569,2.36096,2.35622,2.35148,2.34675,2.34201,2.33727,2.33254,2.3278,2.32306,2.31832,2.31359,2.30885,2.30411,2.29938,2.29464,2.2899,2.28517,2.28043,2.27569,2.27096,2.26622,2.26148,2.25674,2.25201,2.24727,2.24253,2.2378,2.23306,2.22832,2.22359,2.21885,2.21411,2.20938,2.20464,2.1999,2.19517,2.19043,2.18569,2.18095,2.17622,2.17148,2.16674,2.16201,2.15727,2.15253,2.1478,2.14306,2.13832,2.13359,2.12885,2.12411,2.11937,2.11464,2.1099,2.10516,2.10043,2.09569,2.09095,2.08622,2.08148,2.07674,2.07201,2.06727,2.06253,2.0578,2.05306,2.04832,2.04358,2.03885,2.03411,2.02937,2.02464,2.0199,2.01516,2.01043,2.00569,2.00095,1.99622,1.99148,1.98674,1.982,1.97727,1.97253,1.96779,1.96306,1.95832,1.95358,1.94885,1.94411,1.93937,1.93464,1.9299,1.92516,1.92042,1.91569,1.91095,1.90621,1.90148,1.89674,1.892,1.88727,1.88253,1.87779,1.87306,1.86832,1.86358,1.85885,1.85411,1.84937,1.84463,1.8399,1.83516,1.83042,1.82569,1.82095,1.81621,1.81148,1.80674,1.802,1.79727,1.79253,1.78779,1.78305,1.77832,1.77358,1.76884,1.76411,1.75937,1.75463,1.7499,1.74516,1.74042,1.73569,1.73095,1.72621,1.72148,1.71674,1.712,1.70726,1.70253,1.69779,1.69305,1.68832,1.68358,1.67884,1.67411,1.66937,1.66463,1.6599,1.65516,1.65042,1.64568,1.64095,1.63621,1.63147,1.62674,1.622,1.61726,1.61253,1.60779,1.60305,1.59832,1.59358,1.58884,1.58411,1.57937,1.57463,1.56989,1.56516,1.56042,1.55568,1.55095,1.54621,1.54147,1.53674,1.532,1.52726,1.52253,1.51779,1.51305,1.50831,1.50358,1.49884,1.4941,1.48937,1.48463,1.47989,1.47516,1.47042,1.46568,1.46095,1.45621,1.45147,1.44673,1.442,1.43726,1.43252,1.42779,1.42305,1.41831,1.41358,1.40884,1.4041,1.39937,1.39463,1.38989,1.38516,1.38042,1.37568,1.37094,1.36621,1.36147,1.35673,1.352,1.34726,1.34252,1.33779,1.33305,1.32831,1.32358,1.31884,1.3141,1.30936,1.30463,1.29989,1.29515,1.29042,1.28568,1.28094,1.27621,1.27147,1.26673,1.262,1.25726,1.25252,1.24779,1.24305,1.23831,1.23357,1.22884,1.2241,1.21936,1.21463,1.20989,1.20515,1.20042,1.19568,1.19094,1.18621,1.18147,1.17673,1.17199,1.16726,1.16252,1.15778,1.15305,1.14831,1.14357,1.13884,1.1341,1.12936,1.12463,1.11989,1.11515,1.11041,1.10568,1.10094,1.0962,1.09147,1.08673,1.08199,1.07726,1.07252,1.06778,1.06305,1.05831,1.05357,1.04884,1.0441,1.03936,1.03462,1.02989,1.02515,1.02041,1.01568,1.01094,1.0062,1.00147,0.996729,0.991993,0.987256,0.982519,0.977782,0.973045,0.968308,0.963572,0.958835,0.954098,0.949361,0.944624,0.939887,0.935151,0.930414,0.925677,0.92094,0.916203,0.911466,0.906729,0.901993,0.897256,0.892519,0.887782,0.883045,0.878308,0.873572,0.868835,0.864098,0.859361,0.854624,0.849887,0.845151,0.840414,0.835677,0.83094,0.826203,0.821466,0.816729,0.811993,0.807256,0.802519,0.797782,0.793045,0.788308,0.783572,0.778835,0.774098,0.769361,0.764624,0.759887,0.755151,0.750414,0.745677,0.74094,0.736203,0.731466,0.72673,0.721993,0.717256,0.712519,0.707782,0.703045,0.698308,0.693572,0.688835,0.684098,0.679361,0.674624,0.669887,0.665151,0.660414,0.655677,0.65094,0.646203,0.641466,0.63673,0.631993,0.627256,0.622519,0.617782,0.613045,0.608308,0.603572,0.598835,0.594098,0.589361,0.584624,0.579887,0.575151,0.570414,0.565677,0.56094,0.556203,0.551466,0.54673,0.541993,0.537256,0.532519,0.527782,0.523045,0.518309,0.513572,0.508835,0.504098,0.499361,0.494624,0.489887,0.485151,0.480414,0.475677,0.47094,0.466203,0.461466,0.45673,0.451993,0.447256,0.442519,0.437782,0.433045,0.428309,0.423572,0.418835,0.414098,0.409361,0.404624,0.399888,0.394624,0.389361,0.384098,0.378835,0.373572,0.368309,0.363045,0.357782,0.352519,0.347256,0.341993,0.33673,0.331467,0.326203,0.32094,0.315677,0.310414,0.305151,0.299888,0.294625,0.289361,0.284098,0.278835,0.273572,0.268309,0.263046,0.257782,0.252519,0.247256,0.241993,0.23673,0.231467,0.226203,0.22094,0.215677,0.210414,0.205151,0.199888,0.194624,0.189361,0.184098,0.178835,0.173572,0.168309,0.163046,0.157782,0.152519,0.147256,0.141993,0.13673,0.131467,0.126203,0.12094,0.115677,0.110414,0.105151,0.0998876,0.0946244,0.0893613,0.0840981,0.0788349,0.0735718,0.0683086,0.0630455,0.0577823,0.0525192,0.047256,0.0419928,0.0367297,0.0314665,0.0262034,0.0209402,0.0156771,0.0104139,0.00515074,-0.000112417,-0.00537558,-0.0106387,-0.0159019,-0.0211651,-0.0264282,-0.0316914,-0.0369545,-0.0422177,-0.0474808,-0.052744,-0.0580072,-0.0632703,-0.0685335,-0.0737966,-0.0790598,-0.0843229,-0.0895861,-0.0948493,-0.100112,-0.105376,-0.110639,-0.115902,-0.121165,-0.126428,-0.131691,-0.136955,-0.142218,-0.147481,-0.152744,-0.158007,-0.16327,-0.168534,-0.173797,-0.17906,-0.184323,-0.189586,-0.194849,-0.200113,-0.205376,-0.210639,-0.215902,-0.221165,-0.226428,-0.231691,-0.236955,-0.242218,-0.247481,-0.252744,-0.258007,-0.26327,-0.268534,-0.273797,-0.27906,-0.284323,-0.289586,-0.294849,-0.300112,-0.305376,-0.310639,-0.315902,-0.321165,-0.326428,-0.331691,-0.336955,-0.342218,-0.347481,-0.352744,-0.358007,-0.36327,-0.368533,-0.373797,-0.37906,-0.384323,-0.389586,-0.394849,-0.400112,-0.405375,-0.410639,-0.415902,-0.421165,-0.426428,-0.431691,-0.436954,-0.442218,-0.447481,-0.452744,-0.458007,-0.46327,-0.468533,-0.473796,-0.47906,-0.484323,-0.489586,-0.494849,-0.500112,-0.505375,-0.510638,-0.515902,-0.521165,-0.526428,-0.531691,-0.536954,-0.542217,-0.547481,-0.552744,-0.558007,-0.56327,-0.568533,-0.573796,-0.579059,-0.584323,-0.589586,-0.594849,-0.600112,-0.602744,-0.605375,-0.608007,-0.610638,-0.61327,-0.615902,-0.618533,-0.621165,-0.623796,-0.626428,-0.62906,-0.631691,-0.634323,-0.636954,-0.639586,-0.642218,-0.644849,-0.647481,-0.650113,-0.652744,-0.655376,-0.658007,-0.660639,-0.663271,-0.665902,-0.668534,-0.671165,-0.673797,-0.676429,-0.67906,-0.681692,-0.684323,-0.686955,-0.689587,-0.692218,-0.69485,-0.697481,-0.700113,-0.702745,-0.705376,-0.708008,-0.710639,-0.713271,-0.715903,-0.718534,-0.721166,-0.723797,-0.726429,-0.729061,-0.731692,-0.734324,-0.736955,-0.739587,-0.742219,-0.74485,-0.747482,-0.750113,-0.752745,-0.755377,-0.758008,-0.76064,-0.763272,-0.765903,-0.768535,-0.771166,-0.773798,-0.77643,-0.779061,-0.781693,-0.784324,-0.786956,-0.789588,-0.792219,-0.794851,-0.797482,-0.800114,-0.802746,-0.805377,-0.808009,-0.81064,-0.813272,-0.815904,-0.818535,-0.821167,-0.823798,-0.82643,-0.829062,-0.831693,-0.834325,-0.836956,-0.839588,-0.84222,-0.844851,-0.847483,-0.850114,-0.852746,-0.855378,-0.858009,-0.860641,-0.863272,-0.865904,-0.868536,-0.871167,-0.873799,-0.876431,-0.879062,-0.881694,-0.884325,-0.886957,-0.889589,-0.89222,-0.894852,-0.897483,-0.900115,-0.902747,-0.905378,-0.90801,-0.910641,-0.913273,-0.915905,-0.918536,-0.921168,-0.923799,-0.926431,-0.929063,-0.931694,-0.934326,-0.936957,-0.939589,-0.942221,-0.944852,-0.947484,-0.950115,-0.952747,-0.955379,-0.95801,-0.960642,-0.963273,-0.965905,-0.968537,-0.971168,-0.9738,-0.976431,-0.979063,-0.981695,-0.984326,-0.986958,-0.98959,-0.992221,-0.994853,-0.997484,-1.00012,-1.00275,-1.00538,-1.00801,-1.01064,-1.01327,-1.01591,-1.01854,-1.02117,-1.0238,-1.02643,-1.02906,-1.03169,-1.03433,-1.03696,-1.03959,-1.04222,-1.04485,-1.04748,-1.05012,-1.05275,-1.05538,-1.05801,-1.06064,-1.06327,-1.0659,-1.06854,-1.07117,-1.0738,-1.07643,-1.07906,-1.08169,-1.08433,-1.08696,-1.08959,-1.09222,-1.09485,-1.09748,-1.10011 };
 //Auxiliary variables to be able to iterate on the arrangements, as well as for the control of the animation
 int i=0,j=0,k=0,l=0,m=0;
+
+float tiempo; //Time control
+bool on = false; //To control the on of the TV
+bool off=true; //To control the off of the TV
+bool turn = false; //To control the on of the fire
+bool no_turn = true; //To control the off of the fire
 
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
@@ -269,10 +282,14 @@ int main() //Main function
 	// Define the viewport dimensions
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	PlaySound(TEXT("Models/Accesorios/Rugrats.wav"), NULL, SND_ASYNC); //A song will play until everithing is loaded
+
 	//Opening the shaders to use
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
+	Shader AnimShader("Shaders/anim.vs", "Shaders/anim.frag");
+	Shader AnimShaderCandle("Shaders/animCandle.vs", "Shaders/animCandle.frag");
 
 	//Loading the models to use
 	Model House((char*)"Models/House/House_No_Windows_unsized.obj");
@@ -329,10 +346,16 @@ int main() //Main function
 
 	Model glass_c((char*)"Models/Candle/glass.obj");
 	Model candle((char*)"Models/Candle/candle.obj");
+	Model fire((char*)"Models/Candle/fire.obj");
 
 	Model plant1((char*)"Models/Plants/Plant.obj");
 	Model plant2((char*)"Models/Plants/Plant2.obj");
 	Model tv_furniture((char*)"Models/TV furniture/Furniture.obj");
+	Model tv_screen((char*)"Models/TV furniture/signal_screen.obj");
+	Model tv_screen_off((char*)"Models/TV furniture/screen_off.obj");
+
+	Model curtainsM1((char*)"Models/Curtains_Down/model1.obj");
+	Model curtainsM2((char*)"Models/Curtains_Down/model2.obj");
 
 	// Set the container's VAO (and VBO), it will be used only if necessary
 	GLuint VBO, VAO;
@@ -380,7 +403,6 @@ int main() //Main function
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
-
 		// Calculate deltatime of current frame
 		GLfloat currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
@@ -738,7 +760,7 @@ int main() //Main function
 		comoda.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//babypen in in the second room of the house
+		//playpen in in the second room of the house
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.0f, 0.50f, -9.25f));
 		model = glm::scale(model, glm::vec3(1.0f, 0.8f, 0.85f));
@@ -748,9 +770,9 @@ int main() //Main function
 
 		//table in the second room of the house
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-4.05f, 0.5f, 10.5f));
+		model = glm::translate(model, glm::vec3(-3.95f, 0.5f, 10.5f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.1f, 1.1f, 1.1f));
+		model = glm::scale(model, glm::vec3(1.1f, 1.1f, 1.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		table.Draw(lightingShader);
 		glBindVertexArray(0);
@@ -804,22 +826,7 @@ int main() //Main function
 		model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		candle.Draw(lightingShader);
-		glBindVertexArray(0);
-
-		//Glass for the candle
-		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.50);
-		glass_c.Draw(lightingShader);
-		glDisable(GL_BLEND);
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
-		glBindVertexArray(0);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+		glBindVertexArray(0);	
 
 		//Plant over the chest of drawers in the second room
 		model = glm::mat4(1);
@@ -844,6 +851,73 @@ int main() //Main function
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		tv_furniture.Draw(lightingShader);
 		glBindVertexArray(0);
+
+		//Curtains in the second room
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		curtainsM1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		curtainsM2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		if (off) {
+			//Screen for the TV, using lightingShader when is off
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-11.145f, 0.615f, -1.3f));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			tv_screen_off.Draw(lightingShader);
+			glBindVertexArray(0);
+		}
+
+		if (on) {
+			//Screen for the TV, using AnimShader
+			AnimShader.Use();
+			tiempo = glfwGetTime();
+			modelLoc = glGetUniformLocation(AnimShader.Program, "model");
+			viewLoc = glGetUniformLocation(AnimShader.Program, "view");
+			projLoc = glGetUniformLocation(AnimShader.Program, "projection");
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glUniform1f(glGetUniformLocation(AnimShader.Program, "time"), tiempo);
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-11.145f, 0.615f, -1.3f));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			tv_screen.Draw(AnimShader);
+			glBindVertexArray(0);
+		}
+		
+		if (turn) {
+			//Texture of fire for the candle using AnimShaderCandle
+			AnimShaderCandle.Use();
+			tiempo = glfwGetTime();
+			modelLoc = glGetUniformLocation(AnimShaderCandle.Program, "model");
+			viewLoc = glGetUniformLocation(AnimShaderCandle.Program, "view");
+			projLoc = glGetUniformLocation(AnimShaderCandle.Program, "projection");
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
+			glUniform1f(glGetUniformLocation(AnimShaderCandle.Program, "time"), tiempo);
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glUniform1i(glGetUniformLocation(AnimShaderCandle.Program, "activaTransparencia"), 1);
+			glUniform4f(glGetUniformLocation(AnimShaderCandle.Program, "colorAlpha"), 1.0, 1.0, 1.0, 5.0);
+			fire.Draw(AnimShaderCandle);
+			glDisable(GL_BLEND);
+			glUniform4f(glGetUniformLocation(AnimShaderCandle.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+			glBindVertexArray(0);
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glUniform1i(glGetUniformLocation(AnimShaderCandle.Program, "activaTransparencia"), 0);
+		}
 
 		//using the lampshader for light effects on light bulbs as required
 		//For the light bulb in the lamp object tommy's room
@@ -958,6 +1032,25 @@ int main() //Main function
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // Set depth function back to default
+
+		//Glass for the candle
+		lightingShader.Use();
+		modelLoc = glGetUniformLocation(lightingShader.Program, "model");
+		viewLoc = glGetUniformLocation(lightingShader.Program, "view");
+		projLoc = glGetUniformLocation(lightingShader.Program, "projection");
+		glEnable(GL_BLEND); // Blend the computed fragment color values with the values in the color buffers
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//Defines the operation of blending for all draw buffers when it is enabled. 
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.75f, 2.62f, 0.15f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 1);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 0.50);
+		glass_c.Draw(lightingShader);
+		glDisable(GL_BLEND);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
 		//Windows with transparency
 		/*In order to observe objects through, such as windows, they must be drawn at the end of the object to be observed. 
@@ -1194,10 +1287,9 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		anim_dos = true;
 	}
 
-	if (keys[GLFW_KEY_3]) //The key 3 activates the animation of the crib (the rotating element) and plays a song
+	if (keys[GLFW_KEY_3]) //The key 3 activates the animation of the crib (the rotating element)
 	{
 		anim_tres = true;
-		PlaySound(TEXT("Models/Accesorios/Rugrats.wav"), NULL, SND_ASYNC);
 	}
 
 	if (keys[GLFW_KEY_4]) { // The key 4 activates the ball bounce animation
@@ -1210,8 +1302,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
 	if (keys[GLFW_KEY_6]) //The key 6 turns the floor lamp light on and off in the second room of the house
 	{
-		active = !active;
-		if (active)
+		active1 = !active1;
+		if (active1)
 		{
 			Light5 = glm::vec3(1.0f, 1.0f, 1.0f);
 		}
@@ -1223,8 +1315,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
 	if (keys[GLFW_KEY_7]) //The key 7 turns the ceiling lamp light 1 on and off in the second room of the house
 	{
-		active = !active;
-		if (active)
+		active2 = !active2;
+		if (active2)
 		{
 			Light1 = glm::vec3(1.0f, 1.0f, 1.0f);
 		}
@@ -1235,8 +1327,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 
 	if (keys[GLFW_KEY_8]) { //The key 8 turns the ceiling lamp light 2 on and off in the second room of the house
-		active = !active;
-		if (active)
+		active3 = !active3;
+		if (active3)
 		{
 			Light2 = glm::vec3(1.0f, 1.0f, 1.0f);
 		}
@@ -1248,8 +1340,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 
 	if (keys[GLFW_KEY_9]) { //Key 9 turns the ceiling lamp light on and off in tommy’s room
-		active = !active;
-		if (active)
+		active4 = !active4;
+		if (active4)
 		{
 			Light3 = glm::vec3(1.0f, 1.0f, 1.0f);
 		}
@@ -1261,8 +1353,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 
 	if (keys[GLFW_KEY_0]) {//Key 0 turns on and off the night lamp light in tommy’s room
-		active = !active;
-		if (active)
+		active5 = !active5;
+		if (active5)
 		{
 			Light4 = glm::vec3(1.0f, 1.0f, 1.0f);
 		}
@@ -1271,6 +1363,31 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 			Light4 = glm::vec3(0);
 
 		}
+	}
+	if (keys[GLFW_KEY_O]) { //Key O turns on and off the tv screen in the living room
+		active6 = !active6;
+		if (active6) {
+			on = true;
+			off = false;
+		}
+		else {
+			on = false;
+			off = true;
+		}
+		
+	}
+
+	if (keys[GLFW_KEY_P]) { //Key P turns on and off the fire anim on the candle
+		active7 = !active7;
+		if (active7) {
+			turn = true;
+			no_turn = false;
+		}
+		else {
+			turn = false;
+			no_turn = true;
+		}
+
 	}
 }
 

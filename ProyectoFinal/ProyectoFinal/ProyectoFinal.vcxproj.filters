@@ -32,6 +32,18 @@
     <None Include="Shaders\lamp.vs">
       <Filter>Archivos de origen</Filter>
     </None>
+    <None Include="Shaders\anim.frag">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="Shaders\anim.vs">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="Shaders\animCandle.frag">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="Shaders\animCandle.vs">
+      <Filter>Archivos de origen</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">

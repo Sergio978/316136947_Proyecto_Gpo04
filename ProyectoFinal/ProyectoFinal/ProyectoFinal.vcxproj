@@ -22,6 +22,10 @@
     <ClCompile Include="316136947_ProyectoFinal_GPO04.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\anim.frag" />
+    <None Include="Shaders\anim.vs" />
+    <None Include="Shaders\animCandle.frag" />
+    <None Include="Shaders\animCandle.vs" />
     <None Include="Shaders\lamp.frag" />
     <None Include="Shaders\lamp.vs" />
     <None Include="Shaders\lighting.frag" />
