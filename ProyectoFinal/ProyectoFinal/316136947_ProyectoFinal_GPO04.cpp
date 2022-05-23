@@ -1215,8 +1215,8 @@ void DoMovement()
 			walk = Tras[j];
 		}
 		j++;
-		if (j == 1709) k = 161; /*When the end of the arrangement is reached implies that the toy reached 
-								the wall of the room, then, to rotate, it has to reach from -80° to 80, that is, 
+		if (j == 1709) k = 161; /*When the end of the array is reached implies that the toy reached 
+								the wall of the room, then, to rotate, it has to reach from -80° to 80°, that is, 
 								if unit increments are made are 160 increments, an account that is only activated until 
 								the iterator variable "j" at the end, to start the rotation process with the variable "k"*/
 			if (k > 0)
@@ -1227,7 +1227,7 @@ void DoMovement()
 			}
 			k--;
 			if (k == 1) l = 1709; /*As "k" was decremented as an account, when it reaches 1 it implies that it has finished rotating, 
-								  then the auxiliary variable "l" is assigned the value of 1709 so that it can iterate the arrangement 
+								  then the auxiliary variable "l" is assigned the value of 1709 so that it can iterate the arrays 
 								  (obtained with keyframes) in reverse to return to the initial position*/
 				if (l > -1) {
 					rotLeg1 = Pier1[l];
@@ -1235,8 +1235,8 @@ void DoMovement()
 					walk = Tras[l];
 				}
 				l--;
-				if (l == 0) m = 161; /*When the auxiliary variable l reaches position 0, then I reach the initial position and starts 
-									 an account of 160 to 0 so that I can now rotate from 80 to -80 so that the toy is as at the beginning 
+				if (l == 0) m = 161; /*When the auxiliary variable l reaches position 0,starts 
+									 an account of 160 to 0 so now it can rotate from 80 to -80 so that the toy is as at the beginning 
 									 of the animation*/
 					if (m > 0)
 					{
@@ -1247,7 +1247,7 @@ void DoMovement()
 						}
 					}
 					m--;
-					if (m == 1) { //When the count reaches 1, it implies that the toy finished spinning and therefore ends the animation
+					if (m == 1) { //When the count reaches 1, it implies that the toy finished rotating and therefore ends the animation
 						//Reset:
 						j = 0;
 						anim_R = false;
